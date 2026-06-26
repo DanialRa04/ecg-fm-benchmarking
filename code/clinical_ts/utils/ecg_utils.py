@@ -173,7 +173,7 @@ def prepare_ptbv2(data_path="", min_cnt=10, target_fs=1000, channels=12, strat_f
         for _,row in df.iterrows():
             sigbufs, header = wfdb.rdsamp(str(row["filename"])[:-4])
             if header['fs'] != 1000:
-                print(f'frequency is {header['fs']}')
+                print(f'frequency is {header["fs"]}')
             data = resample_data(sigbufs=sigbufs,channel_stoi=channel_stoi,channel_labels=header['sig_name'],fs=header['fs'],target_fs=target_fs,channels=channels)
             
             stem=Path(row["filename"]).stem
