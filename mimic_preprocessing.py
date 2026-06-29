@@ -67,6 +67,22 @@ np.save('lbl_itos_diagnostic.npy', lbl_itos_diagnostic)
 dfed = pd.read_csv('data/mds_ed.csv', 
                    low_memory=False)
 
+
+
+
+
+dfed['general_intime'] = pd.to_datetime(dfed['general_intime'])
+dfed = dfed.sort_values(by=['general_study_id', 'general_intime'])
+
+# Drop duplicates, keeping the first occurrence for each general_study_id
+dfed = dfed.drop_duplicates(subset='general_study_id', keep='first')
+
+# Optionally reset the index if needed
+dfed.reset_index(drop=True, inplace=True)
+
+
+
+
 deterioration_columns = [i for i in dfed.columns if 'deterioration' in i]
 dfed = dfed[deterioration_columns+['general_subject_id','general_data','general_strat_fold']]
 dfed.columns = deterioration_columns+['subject_id','data','strat_fold']
